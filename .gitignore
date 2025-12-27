@@ -1,0 +1,4 @@
+obj/
+obj/*
+log.txt
+build.sh
