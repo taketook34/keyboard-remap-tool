@@ -3,6 +3,7 @@
 
 #include <stdio.h>
 
+#define STR(X) #X
 
 int setupReadEvent();
 void closeReadEvent(int real_keyboard_fd);

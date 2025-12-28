@@ -2,8 +2,6 @@
 #include <unistd.h>
 #include <fcntl.h>
 #include <linux/input.h>
-#include <linux/uinput.h>
-#include <sys/ioctl.h>
 #include <string.h>
 #include <signal.h>
 #include <stdbool.h>
@@ -28,10 +26,6 @@ int main() {
         return 1;
     }
     /* END opening files */
-    /* BEGIN defining additioonals structs */
-    struct input_event ev;
-    /* END defining additioonals structs */
-
 
     /* BEGIN Set up signal mask for program */
     struct sigaction sa;
@@ -44,30 +38,31 @@ int main() {
 
 
     /* BEGIN Read data from config file */
+    struct KeyBind binds_array[MAX_LINE];
+    size_t barray_index = 0;
     FILE *file = fopen("file.conf", "r");
-    if (!file) {
-        perror("fopen");
-        return 1;
-    }
-    readConfFile(file);
+    if (!file) { perror("fopen"); return 1; }
+    readConfFile(file, binds_array, &barray_index);
     fclose(file);
+    // printf("Uploaded configurations\n");
+    // for (int i = 0; i < barray_index; i++) {
+    //     printf(" %d instead of %d\n", binds_array[i].newkey, binds_array[i].oldkey);
+    // }
     /* END Read data from config file */
 
     sleep(1);
 
     /* BEGIN Read data from real keyboard */
+    struct input_event ev;
     while (running) {
         if (read(real_keyboard_fd, &ev, sizeof(ev)) != sizeof(ev)) {
             continue;
         }
 
         if (ev.type == EV_KEY) {
-            // if (ev.code == KEY_W) {
-            //     ev.code = KEY_Q;
-            // }
-            //printf("%d\n", ev.code);
-            returnCode(&ev);
-            //printf("%d\n===\n", ev.code);
+            printf("%d\n", ev.code);
+            returnCode(&ev, binds_array, barray_index);
+            printf("%d\n===\n", ev.code);
 
             write(virtual_keyboard_fd, &ev, sizeof(ev));
             emit(virtual_keyboard_fd, EV_SYN, SYN_REPORT, 0);

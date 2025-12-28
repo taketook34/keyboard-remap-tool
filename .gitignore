@@ -2,4 +2,5 @@ obj/
 obj/*
 log.txt
 build.sh
+get-dev-file.sh
 keyboard-remap-tool
