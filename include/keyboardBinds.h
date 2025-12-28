@@ -2,12 +2,39 @@
 #define KEYBOARDBINDS_H
 
 #include <linux/input.h>
+#include <stdio.h>
 #define MAX_LINE 100
+
+struct MacroMap{
+    const char *name;
+    int value;
+};
+
+#define MY_MACRO_LIST \
+    X(KEY_RESERVED) X(KEY_ESC) X(KEY_1) X(KEY_2) X(KEY_3) X(KEY_4) X(KEY_5) \
+    X(KEY_6) X(KEY_7) X(KEY_8) X(KEY_9) X(KEY_0) X(KEY_MINUS) X(KEY_EQUAL) \
+    X(KEY_BACKSPACE) X(KEY_TAB) X(KEY_Q) X(KEY_W) X(KEY_E) X(KEY_R) X(KEY_T) \
+    X(KEY_Y) X(KEY_U) X(KEY_I) X(KEY_O) X(KEY_P) X(KEY_LEFTBRACE) X(KEY_RIGHTBRACE) \
+    X(KEY_ENTER) X(KEY_LEFTCTRL) X(KEY_A) X(KEY_S) X(KEY_D) X(KEY_F) X(KEY_G) \
+    X(KEY_H) X(KEY_J) X(KEY_K) X(KEY_L) X(KEY_SEMICOLON) X(KEY_APOSTROPHE) \
+    X(KEY_GRAVE) X(KEY_LEFTSHIFT) X(KEY_BACKSLASH) X(KEY_Z) X(KEY_X) X(KEY_C) \
+    X(KEY_V) X(KEY_B) X(KEY_N) X(KEY_M) X(KEY_COMMA) X(KEY_DOT) X(KEY_SLASH) \
+    X(KEY_RIGHTSHIFT) X(KEY_KPASTERISK) X(KEY_LEFTALT) X(KEY_SPACE) X(KEY_CAPSLOCK) \
+    X(KEY_F1) X(KEY_F2) X(KEY_F3) X(KEY_F4) X(KEY_F5) X(KEY_F6) X(KEY_F7) \
+    X(KEY_F8) X(KEY_F9) X(KEY_F10) X(KEY_NUMLOCK) X(KEY_SCROLLLOCK) X(KEY_HOME) \
+    X(KEY_UP) X(KEY_PAGEUP) X(KEY_LEFT) X(KEY_RIGHT) X(KEY_END) X(KEY_DOWN) \
+    X(KEY_PAGEDOWN) X(KEY_INSERT) X(KEY_DELETE) X(KEY_MUTE) X(KEY_VOLUMEDOWN) \
+    X(KEY_VOLUMEUP) X(KEY_POWER) X(KEY_PAUSE) X(KEY_STOP) X(KEY_COPY) X(KEY_PASTE)
+
+
 
 struct KeyBind {
     int oldkey;
     int newkey;
 };
+
+void readConfFile(FILE *file);
+void parseLine(char line[MAX_LINE]);
 
 void returnCode(struct input_event *ev);
 

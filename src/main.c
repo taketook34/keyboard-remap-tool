@@ -15,7 +15,7 @@ static bool running = true;
 
 void handle_exit(int sig) {
     //(void)sig;
-    puts("keyboard-remapper - stop working");
+    puts("keyboard-remap-tool - stop working");
     running = false;
 }
 
@@ -44,25 +44,13 @@ int main() {
 
 
     /* BEGIN Read data from config file */
-    // FILE *file = fopen("file.conf", "r");
-    // if (!file) {
-    //     perror("fopen");
-    //     return 1;
-    // }
-
-    // char line[MAX_LINE];
-    // struct KeyBind binds_array[MAX_LINE];
-
-    // while (fgets(line, sizeof(line), file)) {
-    //     // прибираємо символ нового рядка
-    //     line[strcspn(line, "\n")] = '\0';
-
-    //     printf("Рядок: %s\n", line);
-    //     parseLine(line);
-
-        
-    // }
-    // fclose(file);
+    FILE *file = fopen("file.conf", "r");
+    if (!file) {
+        perror("fopen");
+        return 1;
+    }
+    readConfFile(file);
+    fclose(file);
     /* END Read data from config file */
 
     sleep(1);

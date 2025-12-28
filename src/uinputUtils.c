@@ -7,6 +7,8 @@
 #include <sys/ioctl.h>
 #include <string.h>
 
+
+
 int setupReadEvent() {
     int real_keyboard_fd = open("/dev/input/event4", O_RDONLY | O_NONBLOCK);
     if (real_keyboard_fd < 0) { perror("open"); return -1; }
