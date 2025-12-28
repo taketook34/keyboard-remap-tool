@@ -17,10 +17,13 @@ void handle_exit(int sig) {
     running = false;
 }
 
-int main() {
-    
+int main(int argc, char** argv) {
+    if (argc < 3) {
+        printf("Not enough argumets");
+        return 1;
+    }
     /* BEGIN Opening files */
-    int real_keyboard_fd = setupReadEvent();
+    int real_keyboard_fd = setupReadEvent(argv[1]);
     int virtual_keyboard_fd = setupUinput();
     if (virtual_keyboard_fd == -1 || real_keyboard_fd == -1) {
         return 1;
@@ -40,7 +43,7 @@ int main() {
     /* BEGIN Read data from config file */
     struct KeyBind binds_array[MAX_LINE];
     size_t barray_index = 0;
-    FILE *file = fopen("file.conf", "r");
+    FILE *file = fopen(argv[2], "r");
     if (!file) { perror("fopen"); return 1; }
     readConfFile(file, binds_array, &barray_index);
     fclose(file);
