@@ -5,6 +5,7 @@
 #include <string.h>
 #include <signal.h>
 #include <stdbool.h>
+#include <getopt.h>
 
 #include "uinputUtils.h"
 #include "keyboardBinds.h"
@@ -17,13 +18,36 @@ void handle_exit(int sig) {
     running = false;
 }
 
+void print_usage(char *prog_name) {
+    fprintf(stderr, "Usage: %s [-l] <device file> [configuration file]\nIf configuration file is not added, /etc/krt.conf will be used", prog_name);
+}
+
 int main(int argc, char** argv) {
-    if (argc < 3) {
-        printf("Not enough argumets");
+    int opt;
+    int l_flag = 0;
+
+    while ((opt = getopt(argc, argv, "h")) != -1) {
+        switch (opt) {
+            case 'l':
+                print_usage(argv[0]);;
+                break;
+            default:
+                print_usage(argv[0]);
+                return 1;
+        }
+    }
+
+    if (optind >= argc) {
+        print_usage(argv[0]);
         return 1;
     }
+    char *device_file = argv[optind];
+    char *configuration_file = "/etc/krt.conf";
+    if (optind + 1 < argc) {
+        configuration_file = argv[optind + 1];
+    }
     /* BEGIN Opening files */
-    int real_keyboard_fd = setupReadEvent(argv[1]);
+    int real_keyboard_fd = setupReadEvent(device_file);
     int virtual_keyboard_fd = setupUinput();
     if (virtual_keyboard_fd == -1 || real_keyboard_fd == -1) {
         return 1;
@@ -43,7 +67,7 @@ int main(int argc, char** argv) {
     /* BEGIN Read data from config file */
     struct KeyBind binds_array[MAX_LINE];
     size_t barray_index = 0;
-    FILE *file = fopen(argv[2], "r");
+    FILE *file = fopen(configuration_file, "r");
     if (!file) { perror("fopen"); return 1; }
     readConfFile(file, binds_array, &barray_index);
     fclose(file);

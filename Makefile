@@ -14,6 +14,7 @@ OBJS = $(patsubst $(SRC_DIR)/%.c,$(OBJ_DIR)/%.o,$(SRCS))
 PREFIX = /usr/local
 BIN_DIR = $(PREFIX)/bin
 INC_DIR_INSTALL = $(PREFIX)/include
+CONF_FILE = /etc/krt.conf
 
 all: $(TARGET)
 
@@ -32,8 +33,10 @@ clean:
 install: $(TARGET)
 	mkdir -p $(BIN_DIR) $(INC_DIR_INSTALL)
 	cp $(TARGET) $(BIN_DIR)
+	touch $(CONF_FILE)
 
 uninstall:
 	rm -f $(BIN_DIR)/$(TARGET)
-	
+	rm $(CONF_FILE)
+
 .PHONY: all clean

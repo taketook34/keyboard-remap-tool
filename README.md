@@ -16,6 +16,7 @@ Install
 sudo make install
 sudo make uninstall # for deleting
 ```
+Also with installing, file /etc/krt.conf for configurations is created.
 
 ## Launch
 Before launch you need to know dev file of your keyboard
@@ -38,10 +39,11 @@ To check right defines of key in
 ```
 Launch
 ```
-sudo ./keyboard-remap-tool /dev/input/event4  file.conf
+sudo ./keyboard-remap-tool /dev/input/event4  file.conf &
 ```
 First inline parameter - dev file
-Second inline parameter - file with configuration
+Second inline parameter - file with configuration. If not added, use /etc/krt.conf instead
+Recommended to run at background
 
 ## Launch as systemd service
 Will be soon ...
