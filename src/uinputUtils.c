@@ -40,10 +40,10 @@ int setupUinput() {
 
     ioctl(virtual_keyboard_fd, UI_SET_EVBIT, EV_KEY);
     ioctl(virtual_keyboard_fd, UI_SET_EVBIT, EV_SYN);
+
+    /* Set All keys that we can use */
     for (int i = 0; i < 256; i++)
         ioctl(virtual_keyboard_fd, UI_SET_KEYBIT, i);
-    // ioctl(virtual_keyboard_fd, UI_SET_KEYBIT, KEY_SPACE);
-    // ioctl(virtual_keyboard_fd, UI_SET_KEYBIT, KEY_A);
 
     memset(&usetup, 0, sizeof(usetup));
     usetup.id.bustype = BUS_USB;

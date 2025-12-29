@@ -43,7 +43,7 @@ void readConfFile(FILE *file, struct KeyBind *binds_array, size_t *barray_index)
 void returnCode(struct input_event *ev,  struct KeyBind *binds_array, size_t barray_index) {
     for (int i = 0; i < barray_index; i++) {
         if (ev->code == binds_array[i].oldkey) {
-            printf("Found value %d\n", ev->code);
+            // printf("Found value %d\n", ev->code);
             ev->code = binds_array[i].newkey;
             break;
         }

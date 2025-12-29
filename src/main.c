@@ -9,7 +9,7 @@
 #include "uinputUtils.h"
 #include "keyboardBinds.h"
 
-static bool running = true;
+static volatile bool running = true;
 
 void handle_exit(int sig) {
     //(void)sig;
@@ -63,9 +63,9 @@ int main(int argc, char** argv) {
         }
 
         if (ev.type == EV_KEY) {
-            printf("%d\n", ev.code);
+            //printf("%d\n", ev.code);
             returnCode(&ev, binds_array, barray_index);
-            printf("%d\n===\n", ev.code);
+            //printf("%d\n===\n", ev.code);
 
             write(virtual_keyboard_fd, &ev, sizeof(ev));
             emit(virtual_keyboard_fd, EV_SYN, SYN_REPORT, 0);

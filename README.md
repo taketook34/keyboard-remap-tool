@@ -13,7 +13,8 @@ make clean
 ```
 Install
 ```
-(instructions will be later)
+sudo make install
+sudo make uninstall # for deleting
 ```
 
 ## Launch
@@ -35,6 +36,12 @@ To check right defines of key in
 ```
 /usr/include/linux/input-event-codes.h
 ```
+Launch
+```
+sudo ./keyboard-remap-tool /dev/input/event4  file.conf
+```
+First inline parameter - dev file
+Second inline parameter - file with configuration
 
 ## Launch as systemd service
 Will be soon ...
